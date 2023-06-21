@@ -9,13 +9,19 @@ use App\Models\Board;
 class BoardController extends Controller
 {
     private $board;
+
     public function __construct(Board $board)
     {
         $this->board = $board;
     }
 
-    public function index(){
+    public function index()
+    {
         $boards = $this->board->latest()->paginate(10);
+        return view('boards.index', compact('boards'));
+    }
+    public function oldest(){
+        $boards = $this->board->oldest()->paginate(10);
         return view('boards.index', compact('boards'));
     }
 
@@ -42,7 +48,7 @@ class BoardController extends Controller
     public function detail_page(Board $board)
     {
         $comments = Comment::where('board_id', $board->id)->get();
-        return view('boards.detail_page', compact('board','comments'));
+        return view('boards.detail_page', compact('board', 'comments'));
     }
 
     public function edit_page(Board $board)
@@ -62,7 +68,20 @@ class BoardController extends Controller
 
     public function destroy(Board $board)
     {
+        $comments = Comment::where('board_id', $board->id)->get();
+        foreach ($comments as $comment) {
+            $comment->delete();
+        }
         $board->delete();
         return redirect()->route('boards.index');
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->query("keyword");
+        $cnt = Board::select()->where('title', 'like', "%{$keyword}%")->count();
+        $boards = Board::select()->where('title', 'like', "%{$keyword}%")->latest()->paginate(10);;
+
+        return view('boards.search_list', compact('boards', 'keyword','cnt'));
     }
 }

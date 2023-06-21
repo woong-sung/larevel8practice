@@ -3,14 +3,8 @@
 {{--'content'부분에 적용--}}
 @section('content')
     <div class="container">
-        <h2 class="mt-4 mb-3">Boards List</h2>
-
-        <a href="{{route("boards.index")}}">
-            <button type="button" class="btn btn-outline-dark" style="float: right;">최신순</button>
-        </a>
-        <a href="{{route("boards.oldest")}}">
-            <button type="button" class="btn btn-outline-dark" style="float: right;">오래된 순</button>
-        </a>
+        <h2 class="mt-4 mb-3">{{$cnt}} 건의 검색결과 : {{$keyword}}</h2>
+        <a href="{{route("boards.index")}}">[...목록으로...]</a>
         <a href="{{route("boards.create_page")}}">
             <button type="button" class="btn btn-dark" style="float: right;">Create</button>
         </a>
@@ -42,9 +36,9 @@
                     <td>
                         <a href="{{route("boards.detail_page", $board->id)}}">
                             @if(mb_strlen($board->title)>15)
-                                {{mb_substr($board->title,0,14).('...')}}
+                            {{mb_substr($board->title,0,14).('...')}}
                             @else
-                                {{$board->title}}
+                            {{$board->title}}
                             @endif
 
                         </a>
@@ -80,10 +74,10 @@
         </table>
 
         {{-- 라라벨 기본 지원 페이지네이션 --}}
-        {!! $boards->links() !!}
+        {!! $boards->withQueryString()->links() !!}
     </div>
     <div class="container">
-        <form action="{{route("search")}}" method="get">
+        <form action="{{route('search')}}" method="get">
             <label for="keyword" class="form-label">Search</label>
             <div class="mb-3">
                 <input name="keyword" style="width: 200px; float: left; margin-right: 10px" class="form-control" id="name">
