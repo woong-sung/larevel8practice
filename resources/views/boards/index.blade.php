@@ -6,15 +6,11 @@
         <h2 class="mt-4 mb-3">Boards List</h2>
 
         <a href="{{route("boards.index")}}">
-            <button type="button" class="btn btn-outline-dark" style="float: right;">최신순</button>
+            <button type="button" class="btn btn-outline-dark" style="float: right;">Newest</button>
         </a>
         <a href="{{route("boards.oldest")}}">
-            <button type="button" class="btn btn-outline-dark" style="float: right;">오래된 순</button>
+            <button type="button" class="btn btn-outline-dark" style="float: right;">Oldest</button>
         </a>
-        <a href="{{route("boards.create_page")}}">
-            <button type="button" class="btn btn-dark" style="float: right;">Create</button>
-        </a>
-
 
         <table class="table table-striped table-hover">
             <colgroup>
@@ -40,7 +36,12 @@
                 <tr>
                     <th scope="row">{{$key+1 + (($boards->currentPage()-1) * 10)}}</th>
                     <td>
-                        <a href="{{route("boards.detail_page", $board->id)}}">
+                        @if($board->password == null)
+                            <a href="{{route("boards.detail_page", $board->id)}}">
+                        @else
+                            <a href="{{route("boards.verify_page", $board->id)}}">
+                        @endif
+
                             @if(mb_strlen($board->title)>15)
                                 {{mb_substr($board->title,0,14).('...')}}
                             @else
@@ -81,6 +82,9 @@
 
         {{-- 라라벨 기본 지원 페이지네이션 --}}
         {!! $boards->links() !!}
+        <a href="{{route("boards.create_page")}}">
+            <button type="button" class="btn btn-dark" style="float: right;">Create</button>
+        </a>
     </div>
     <div class="container">
         <form action="{{route("search")}}" method="get">

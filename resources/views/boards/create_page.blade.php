@@ -29,6 +29,10 @@
                 <textarea rows="10" cols="40" name="content" class="form-control" id="name"
                           autocomplete="off"></textarea>
             </div>
+            <div class="mb-3" style="width: 200px">
+                <label for="password" class="form-label">password</label>
+                <input type="text" name="password" class="form-control" id="name" autocomplete="off">
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

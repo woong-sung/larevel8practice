@@ -20,8 +20,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-//Route::group(['as' => 'boards', 'prefix' => 'boards', 'middleware' => 'auth'], static function () {
-Route::group(['as' => 'boards', 'prefix' => 'boards'], static function () {
+Route::group(['as' => 'boards', 'prefix' => 'boards', 'middleware' => 'auth'], static function () {
     Route::get('/', [BoardController::class, 'index'])->name('.index');
     Route::get('/oldest', [BoardController::class, 'oldest'])->name('.oldest');
     Route::get('/create-page', [BoardController::class, 'create_page'])->name('.create_page');
@@ -30,6 +29,9 @@ Route::group(['as' => 'boards', 'prefix' => 'boards'], static function () {
     Route::get('/{board}/edit-page', [BoardController::class, 'edit_page'])->name('.edit_page');
     Route::patch('/{board}}', [BoardController::class, 'update'])->name('.update');
     Route::delete('/{board}', [BoardController::class, 'destroy'])->name('.destroy');
+    Route::get('/{board}/verify', [BoardController::class, 'verify'])->name('.verify');
+    Route::get('/{board}/verify-page', [BoardController::class, 'verify_page'])->name('.verify_page');
+    // 얘는 왜 안될까 라우트 list에는 있지만 404 에러가 나온다!
 //    Route::get('/search', [BoardController::class, 'search'])->name('.search');
 });
     Route::get('/search', [BoardController::class, 'search'])->name('search');

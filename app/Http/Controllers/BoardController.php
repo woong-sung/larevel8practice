@@ -40,6 +40,7 @@ class BoardController extends Controller
         $this->board['user_name'] = auth()->user()->name;
         $this->board['title'] = $validated['title'];
         $this->board['content'] = $validated['content'];
+        $this->board['password'] = $request['password'];
         $this->board->save();
 
         return redirect()->route('boards.index');
@@ -83,5 +84,20 @@ class BoardController extends Controller
         $boards = Board::select()->where('title', 'like', "%{$keyword}%")->latest()->paginate(10);;
 
         return view('boards.search_list', compact('boards', 'keyword','cnt'));
+    }
+
+    public function verify_page(Board $board)
+    {
+        return view('boards.password_page', compact('board'));
+    }
+    public function verify(Board $board, Request $request)
+    {
+        $inputPassword = $request->password;
+        if ($board->password == $inputPassword) {
+            return redirect()->route("boards.detail_page", $board->id);
+        } else {
+            return redirect()->route("boards.verify_page", $board->id)->with('alert','비밀번호가 틀렸습니다.');
+        }
+
     }
 }

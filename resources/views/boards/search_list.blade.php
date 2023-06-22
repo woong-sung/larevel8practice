@@ -35,12 +35,7 @@
                     <th scope="row">{{$key+1 + (($boards->currentPage()-1) * 10)}}</th>
                     <td>
                         <a href="{{route("boards.detail_page", $board->id)}}">
-                            @if(mb_strlen($board->title)>15)
-                            {{mb_substr($board->title,0,14).('...')}}
-                            @else
                             {{$board->title}}
-                            @endif
-
                         </a>
                     </td>
                     <td>
@@ -80,7 +75,8 @@
         <form action="{{route('search')}}" method="get">
             <label for="keyword" class="form-label">Search</label>
             <div class="mb-3">
-                <input name="keyword" style="width: 200px; float: left; margin-right: 10px" class="form-control" id="name">
+                <input name="keyword" style="width: 200px; float: left; margin-right: 10px" class="form-control"
+                       id="name">
                 <button type="submit" class="btn btn-primary">검색</button>
             </div>
         </form>
