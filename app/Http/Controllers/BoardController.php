@@ -20,7 +20,9 @@ class BoardController extends Controller
         $boards = $this->board->latest()->paginate(10);
         return view('boards.index', compact('boards'));
     }
-    public function oldest(){
+
+    public function oldest()
+    {
         $boards = $this->board->oldest()->paginate(10);
         return view('boards.index', compact('boards'));
     }
@@ -83,20 +85,21 @@ class BoardController extends Controller
         $cnt = Board::select()->where('title', 'like', "%{$keyword}%")->count();
         $boards = Board::select()->where('title', 'like', "%{$keyword}%")->latest()->paginate(10);;
 
-        return view('boards.search_list', compact('boards', 'keyword','cnt'));
+        return view('boards.search_list', compact('boards', 'keyword', 'cnt'));
     }
 
     public function verify_page(Board $board)
     {
         return view('boards.password_page', compact('board'));
     }
+
     public function verify(Board $board, Request $request)
     {
         $inputPassword = $request->password;
         if ($board->password == $inputPassword) {
             return redirect()->route("boards.detail_page", $board->id);
         } else {
-            return redirect()->route("boards.verify_page", $board->id)->with('alert','비밀번호가 틀렸습니다.');
+            return redirect()->route("boards.verify_page", $board->id)->with('alert', '비밀번호가 틀렸습니다.');
         }
 
     }

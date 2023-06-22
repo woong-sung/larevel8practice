@@ -72,7 +72,7 @@
         {!! $boards->withQueryString()->links() !!}
     </div>
     <div class="container">
-        <form action="{{route('search')}}" method="get">
+        <form action="{{route('boards.search')}}" method="get">
             <label for="keyword" class="form-label">Search</label>
             <div class="mb-3">
                 <input name="keyword" style="width: 200px; float: left; margin-right: 10px" class="form-control"
